@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dapper.API.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
@@ -33,8 +35,7 @@ namespace Dapper.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Create(Product product)
         {
-            _ = await _productRepository.Create(product);
-            return Ok();
+            return Ok(await _productRepository.Create(product));
         }
 
         [HttpPut]
@@ -48,8 +49,7 @@ namespace Dapper.API.Controllers
                 return BadRequest("Product to update not found");
             }
 
-            _ = await _productRepository.Update(product);
-            return Ok();
+            return Ok(await _productRepository.Update(product));
         }
 
         [HttpDelete("{id:int}")]
@@ -63,8 +63,7 @@ namespace Dapper.API.Controllers
                 return BadRequest("Product to delete not found");
             }
 
-            _ = await _productRepository.Delete(id);
-            return Ok();
+            return Ok(await _productRepository.Delete(id));
         }
     }
 }
